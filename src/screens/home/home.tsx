@@ -1,7 +1,8 @@
 import React, { ReactElement } from "react";
-import { View, Text, Button } from "react-native";
+import { Text, Button, ScrollView, View } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
+import { GradientBackground } from "@components";
 import styles from "./home.styles";
 
 type HomeProps = {
@@ -10,9 +11,12 @@ type HomeProps = {
 
 export default function Home({ navigation }: HomeProps): ReactElement {
     return (
-        <View style={styles.container}>
-            <Text>Home</Text>
-            <Button title="Game" onPress={() => navigation.navigate("Game")} />
-        </View>
+        <GradientBackground>
+            {/*  ScrollView has 2 parts. container and content. style is applied to container, contentContainer */}
+            <ScrollView contentContainerStyle={styles.container}>
+                <Text>Home</Text>
+                <Button title="Game" onPress={() => navigation.navigate("Game")} />
+            </ScrollView>
+        </GradientBackground>
     );
 }
