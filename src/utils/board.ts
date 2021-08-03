@@ -33,7 +33,7 @@ export const getAvailableMoves = (state: BoardState): Moves[] => {
     state.forEach((cell, index) => {
         index;
         if (cell === null) {
-            // we are doing type casting
+            // we are doing type casting because moves array accepts Move
             moves.push(index as Moves);
         }
     });

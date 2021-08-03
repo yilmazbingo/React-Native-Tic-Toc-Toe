@@ -1,17 +1,25 @@
 import React, { ReactElement } from "react";
 import { View, TouchableOpacity } from "react-native";
-import { BoardState } from "@utils";
+import { BoardState, BoardResult } from "@utils";
 // avoiding require cycle error
 import Text from "../text/text";
+import BoardLine from "./board-line";
 
 type BoardProps = {
     state: BoardState;
     size: number;
     onCellPressed?: (index: number) => void;
     disabled?: boolean;
+    gameResult?: BoardResult | false;
 };
 
-export default function Board({ state, size, onCellPressed, disabled }: BoardProps): ReactElement {
+export default function Board({
+    state,
+    size,
+    onCellPressed,
+    disabled,
+    gameResult
+}: BoardProps): ReactElement {
     return (
         <View
             style={{
@@ -41,6 +49,12 @@ export default function Board({ state, size, onCellPressed, disabled }: BoardPro
                     </TouchableOpacity>
                 );
             })}
+            {true && (
+                <BoardLine
+                    size={size}
+                    gameResult={{ winner: "o", diagonal: "MAIN", direction: "D" }}
+                />
+            )}
         </View>
     );
 }
