@@ -50,10 +50,7 @@ export default function Board({
                 );
             })}
             {true && (
-                <BoardLine
-                    size={size}
-                    gameResult={{ winner: "o", diagonal: "MAIN", direction: "D" }}
-                />
+                <BoardLine size={size} gameResult={{ winner: "o", column: 1, direction: "V" }} />
             )}
         </View>
     );
