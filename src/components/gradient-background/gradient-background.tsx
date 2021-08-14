@@ -1,13 +1,13 @@
 import React, { ReactElement, ReactNode } from "react";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import { StatusBar } from "expo-status-bar";
 
-import { LinearGradient } from "expo";
+import { LinearGradient } from "expo-linear-gradient";
 
-type GradientBackgroundprops = {
+type GradientBackgroundProps = {
     children: ReactNode;
 };
-export default function GradientBackground({ children }: GradientBackgroundprops): ReactElement {
+export default function GradientBackground({ children }: GradientBackgroundProps): ReactElement {
     return (
         <View style={{ flex: 1 }}>
             <StatusBar style="light" />

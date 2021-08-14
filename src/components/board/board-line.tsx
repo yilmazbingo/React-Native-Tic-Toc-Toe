@@ -1,14 +1,14 @@
-import { BoardResult } from "@utils";
+import { BoardResult, colors } from "@utils";
 import React, { ReactElement, useRef, useEffect } from "react";
 import { View, StyleSheet, Animated } from "react-native";
 
 const style = StyleSheet.create({
     line: {
         position: "absolute",
-        backgroundColor: "red"
+        backgroundColor: colors.lightPurple
     },
     vLine: {
-        width: 2
+        width: 4
         //height: "100%" // heigght is getting animated, we dont add manually
     },
     hLine: {
@@ -16,7 +16,7 @@ const style = StyleSheet.create({
         width: 2
     },
     dLine: {
-        width: 2,
+        width: 4,
         height: "100%",
         top: 0,
         left: "50%"

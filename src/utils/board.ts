@@ -31,7 +31,7 @@ export const isFull = (state: BoardState): boolean => {
 export const getAvailableMoves = (state: BoardState): Moves[] => {
     const moves: Moves[] = [];
     state.forEach((cell, index) => {
-        index;
+        // index;
         if (cell === null) {
             // we are doing type casting because moves array accepts Move
             moves.push(index as Moves);
@@ -55,12 +55,9 @@ export const isTerminal = (state: BoardState): BoardResult | false => {
     for (let index = 0; index < winningLines.length; index++) {
         const line = winningLines[index];
         const [cell1, cell2, cell3] = line;
-        if (
-            state[cell1] &&
-            state[cell1] === state[cell2] &&
-            state[cell1] &&
-            state[cell1] === state[cell3]
-        ) {
+        // if (state[cell1] && state[cell1] === state[cell2] && state[cell1] === state[cell3]) {
+
+        if (state[cell1] && state[cell1] === state[cell2] && state[cell1] === state[cell3]) {
             const result: BoardResult = {
                 winner: state[cell1]
             };
