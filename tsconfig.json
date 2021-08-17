@@ -9,15 +9,24 @@
         "resolveJsonModule": true,
         "strict": true,
         "baseUrl": ".",
+        // "paths": {
+        //     // "@*": ["src/*"],
+        //     "@assets/*": ["./assets"],
+        //     "@screens": ["src/screens"],
+        //     "@components": ["src/components"],
+        //     "@utils": ["src/utils"],
+        //     // this means contexts is not a module, we cannot import from here. However we can import from subfolders or subfiles
+        //     "@contexts/*": ["src/contexts/*"],
+        //     "@config/*": ["src/config/*"]
+        // }
         "paths": {
-            // "@*": ["src/*"],
-            "@assets/*": ["./assets"],
             "@screens": ["src/screens"],
             "@components": ["src/components"],
             "@utils": ["src/utils"],
-            // this means contexts is not a module, we cannot import from here. However we can import from subfolders or subfiles
             "@contexts/*": ["src/contexts/*"],
-            "@config/*": ["src/config/*"]
+            "@config/*": ["src/config/*"],
+            "@assets/*": ["src/assets/*"],
+            "@api": ["src/API.ts"]
         }
     }
 }
