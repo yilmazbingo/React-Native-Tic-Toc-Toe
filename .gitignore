@@ -10,6 +10,7 @@ npm-debug.*
 *.orig.*
 web-build/
 aws-exports.ts
+package-lock.json
 
 # macOS
 .DS_Store
