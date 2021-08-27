@@ -64,6 +64,7 @@ function SettingsProvider(props: { children: ReactNode }): ReactElement {
             setSettings(newSettings);
         } catch (error) {
             Alert.alert("Error during loading async storage");
+            console.log("error during loding async storage", error);
         }
     };
 

@@ -1,4 +1,4 @@
-**start the game in development**
+**Start the game in development**
 
 `npm run start`
 
@@ -6,7 +6,7 @@
 
     `expo r -c`
 
-**Run the app on your mobile**
+**Run the app on your mobile with Expo**
 
 -   install "expo" client app from app store
 -   navigate to https://expo.dev/@yilmazito/tic-toc-toe
