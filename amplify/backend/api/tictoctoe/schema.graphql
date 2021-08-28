@@ -1,5 +1,9 @@
-type Todo @model {
-  id: ID!
-  name: String!
-  description: String
+# @model will instruct Appsync to add a table in our database
+
+type Player @model {
+    id: ID!
+    cognitoID: String!
+    username: String!
+    name: String!
+    email: AWSEmail!
 }

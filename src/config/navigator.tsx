@@ -1,7 +1,15 @@
 import React, { ReactElement } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
-import { Home, SinglePlayerGame, Settings, Login, Signup } from "@screens";
+import {
+    Home,
+    SinglePlayerGame,
+    Settings,
+    Login,
+    Signup,
+    ChangePassword,
+    ForgotPassword
+} from "@screens";
 import { colors } from "@utils";
 
 export type StackNavigatorParams = {
@@ -10,6 +18,8 @@ export type StackNavigatorParams = {
     Settings: undefined;
     Login: undefined;
     Signup: { username: string } | undefined;
+    ChangePassword: undefined;
+    ForgotPassword: undefined;
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -49,6 +59,16 @@ export default function Navigator(): ReactElement {
                 <Stack.Screen name="Login" component={Login} />
                 {/* title is set automatically to name=Signup. we change it with options */}
                 <Stack.Screen name="Signup" component={Signup} options={{ title: "Sign-Up" }} />
+                <Stack.Screen
+                    name="ChangePassword"
+                    options={{ title: "Change Password" }}
+                    component={ChangePassword}
+                />
+                <Stack.Screen
+                    name="ForgotPassword"
+                    options={{ title: "Forgot Password" }}
+                    component={ForgotPassword}
+                />
             </Stack.Navigator>
         </NavigationContainer>
     );

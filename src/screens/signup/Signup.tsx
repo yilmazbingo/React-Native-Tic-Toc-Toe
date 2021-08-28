@@ -29,10 +29,10 @@ export default function Signup({ navigation, route }: SignupProps): ReactElement
     const emailRef = useRef<NativeTextInput | null>(null);
     const nameRef = useRef<NativeTextInput | null>(null);
     const [form, setForm] = useState({
-        username: "text",
+        username: "kim",
         password: "test1234",
-        email: "",
-        name: ""
+        email: "kimarad9@qseminarb.com",
+        name: "sherr"
     });
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState<"signUp" | "otp">(unconfirmedUsername ? "otp" : "signUp");
@@ -107,7 +107,7 @@ export default function Signup({ navigation, route }: SignupProps): ReactElement
                             ) : (
                                 <>
                                     <OTPInput
-                                        placeholderTextColor="#%d5379"
+                                        placeholderTextColor="#d5379"
                                         placeholderCharacter="0"
                                         pinCount={6}
                                         codeInputFieldStyle={styles.otpInputBox}
