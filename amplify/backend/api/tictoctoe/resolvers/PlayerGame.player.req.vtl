@@ -1,0 +1,11 @@
+#if( $util.isNull($ctx.source.playerUsername) )
+  #return
+#else
+{
+      "version": "2018-05-29",
+      "operation": "GetItem",
+      "key": {
+          "username": $util.dynamodb.toDynamoDBJson($util.defaultIfNullOrBlank($ctx.source.playerUsername, "___xamznone____"))
+    }
+  }
+#end

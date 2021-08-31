@@ -1,9 +1,77 @@
 # @model will instruct Appsync to add a table in our database
-
-type Player @model {
+# key will change the primary key in the schema. default was id
+type Player
+    @model
+    @key(fields: ["username"])
+    @auth(
+        rules: [
+            # we allow loggged in users to do some operations. but having only "read" does not prevent user creating or updating
+            # this is for logged in useer. cognito user
+            { allow: private, operations: [read] }
+            # default provider is cognito. this is for iam
+            { allow: private, provider: iam, operations: [read, create, update, delete] }
+            # logged in user can update only its data
+            { allow: owner, ownerField: "username", operations: [update] }
+        ]
+    ) {
     id: ID!
     cognitoID: String!
     username: String!
     name: String!
     email: AWSEmail!
+    games: [PlayerGame] @connection(keyName: "byPlayer", fields: ["username"])
+}
+# this model links player with game. many-to-many relationship
+# queires:null, will not show query for PlayerGame
+# gameID is secondary key. we need this for querying
+type PlayerGame
+    @auth(
+        rules: [
+            { allow: owner, ownerField: "owners", operations: [read] }
+            { allow: private, provider: iam, operations: [read, create, update, delete] }
+        ]
+    )
+    @model(queries: null)
+    @key(name: "byGame", fields: ["gameID"])
+    @key(name: "byPlayer", fields: ["playerUsername", "createdAt"]) {
+    id: ID!
+    # this is populated by default, we add this to sort players
+    createdAt: String!
+    gameID: ID!
+    playerUsername: String!
+    owners: [String!]!
+    game: Game! @connection(fields: ["gameID"])
+    player: Player @connection(fields: ["playerUsername"])
+}
+
+type Game
+    @model
+    @auth(
+        rules: [
+            { allow: owner, ownerField: "owners", operations: [read] }
+            { allow: private, provider: iam, operations: [read, create, update, delete] }
+        ]
+    ) {
+    id: ID!
+    status: GameStatus!
+    # since this is multiplayer game, both players are owners
+    owners: [String!]!
+    initiater: String!
+    turn: String!
+    state: [Symbol]!
+    winner: String
+    players: [PlayerGame] @connection(keyName: "byGame", fields: ["id"])
+}
+
+enum GameStatus {
+    REQUESTED
+    DECLINED
+    ACTIVE
+    FINISHED
+    CANCELLED
+}
+
+enum Symbol {
+    x
+    o
 }

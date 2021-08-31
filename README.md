@@ -47,3 +47,5 @@ import config from "../aws-exports";
 
 Amplify.configure(config);
 ```
+
+'npm run mock` will start the mock servery

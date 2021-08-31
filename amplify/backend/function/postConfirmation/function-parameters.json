@@ -1,0 +1,8 @@
+{
+    "permissions": {
+        "api": {
+            "tictoctoe": ["Mutation"]
+        }
+    },
+    "lambdaLayers": []
+}

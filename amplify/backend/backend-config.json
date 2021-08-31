@@ -29,9 +29,39 @@
                             "userPoolId": "authtictoctoe3aca7f21"
                         }
                     },
-                    "additionalAuthenticationProviders": []
+                    "additionalAuthenticationProviders": [
+                        {
+                            "authenticationType": "AWS_IAM"
+                        }
+                    ]
                 }
             }
+        }
+    },
+    "function": {
+        "postConfirmation": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictoctoe",
+                    "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput"]
+                }
+            ]
+        },
+        "preAuth": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictoctoe",
+                    "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput"]
+                }
+            ]
         }
     }
 }
