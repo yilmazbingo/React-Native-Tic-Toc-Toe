@@ -16,7 +16,7 @@ exports.handler = async (event, context, callback) => {
                 sessionToken: process.env.AWS_SESSION_TOKEN
             }
         },
-        //    this setting is for client setting to cache
+        //    this setting is for client setting to cache. since we are on the server we do not need to cache
         disableOffline: true
     });
 

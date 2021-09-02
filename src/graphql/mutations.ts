@@ -2,6 +2,28 @@
 /* eslint-disable */
 // this is an auto generated file. This will be overwritten
 
+export const startGame = /* GraphQL */ `
+    mutation StartGame($invitee: String!) {
+        startGame(invitee: $invitee) {
+            id
+            status
+            turn
+            state
+            winner
+        }
+    }
+`;
+export const playMove = /* GraphQL */ `
+    mutation PlayMove($game: ID!, $index: Int) {
+        playMove(game: $game, index: $index) {
+            id
+            status
+            turn
+            state
+            winner
+        }
+    }
+`;
 export const createPlayer = /* GraphQL */ `
     mutation CreatePlayer($input: CreatePlayerInput!, $condition: ModelPlayerConditionInput) {
         createPlayer(input: $input, condition: $condition) {
@@ -102,7 +124,7 @@ export const createPlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -143,7 +165,7 @@ export const updatePlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -184,7 +206,7 @@ export const deletePlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -203,7 +225,7 @@ export const createGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner
@@ -229,7 +251,7 @@ export const updateGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner
@@ -255,7 +277,7 @@ export const deleteGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner

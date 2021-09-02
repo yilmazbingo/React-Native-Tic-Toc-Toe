@@ -63,7 +63,7 @@ export const getGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner
@@ -90,7 +90,7 @@ export const listGames = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner

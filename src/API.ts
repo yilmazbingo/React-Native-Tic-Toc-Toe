@@ -2,6 +2,28 @@
 /* eslint-disable */
 //  This file was automatically generated and should not be edited.
 
+export type GameData = {
+    __typename: "GameData";
+    id: string;
+    status: GameStatus;
+    turn: string;
+    state: Array<Symbol | null>;
+    winner: string;
+};
+
+export enum GameStatus {
+    REQUESTED = "REQUESTED",
+    DECLINED = "DECLINED",
+    ACTIVE = "ACTIVE",
+    FINISHED = "FINISHED",
+    CANCELLED = "CANCELLED"
+}
+
+export enum Symbol {
+    x = "x",
+    o = "o"
+}
+
 export type CreatePlayerInput = {
     id?: string | null;
     cognitoID: string;
@@ -93,7 +115,7 @@ export type Game = {
     id: string;
     status: GameStatus;
     owners: Array<string>;
-    initiater: string;
+    initiator: string;
     turn: string;
     state: Array<Symbol | null>;
     winner?: string | null;
@@ -101,19 +123,6 @@ export type Game = {
     updatedAt: string;
     players?: ModelPlayerGameConnection | null;
 };
-
-export enum GameStatus {
-    REQUESTED = "REQUESTED",
-    DECLINED = "DECLINED",
-    ACTIVE = "ACTIVE",
-    FINISHED = "FINISHED",
-    CANCELLED = "CANCELLED"
-}
-
-export enum Symbol {
-    x = "x",
-    o = "o"
-}
 
 export type UpdatePlayerInput = {
     id?: string | null;
@@ -176,7 +185,7 @@ export type CreateGameInput = {
     id?: string | null;
     status: GameStatus;
     owners: Array<string>;
-    initiater: string;
+    initiator: string;
     turn: string;
     state: Array<Symbol | null>;
     winner?: string | null;
@@ -184,7 +193,7 @@ export type CreateGameInput = {
 
 export type ModelGameConditionInput = {
     status?: ModelGameStatusInput | null;
-    initiater?: ModelStringInput | null;
+    initiator?: ModelStringInput | null;
     turn?: ModelStringInput | null;
     state?: ModelSymbolListInput | null;
     winner?: ModelStringInput | null;
@@ -209,7 +218,7 @@ export type UpdateGameInput = {
     id: string;
     status?: GameStatus | null;
     owners?: Array<string> | null;
-    initiater?: string | null;
+    initiator?: string | null;
     turn?: string | null;
     state?: Array<Symbol | null> | null;
     winner?: string | null;
@@ -245,7 +254,7 @@ export type ModelGameFilterInput = {
     id?: ModelIDInput | null;
     status?: ModelGameStatusInput | null;
     owners?: ModelStringInput | null;
-    initiater?: ModelStringInput | null;
+    initiator?: ModelStringInput | null;
     turn?: ModelStringInput | null;
     state?: ModelSymbolListInput | null;
     winner?: ModelStringInput | null;
@@ -258,6 +267,37 @@ export type ModelGameConnection = {
     __typename: "ModelGameConnection";
     items?: Array<Game | null> | null;
     nextToken?: string | null;
+};
+
+export type StartGameMutationVariables = {
+    invitee: string;
+};
+
+export type StartGameMutation = {
+    startGame?: {
+        __typename: "GameData";
+        id: string;
+        status: GameStatus;
+        turn: string;
+        state: Array<Symbol | null>;
+        winner: string;
+    } | null;
+};
+
+export type PlayMoveMutationVariables = {
+    game: string;
+    index?: number | null;
+};
+
+export type PlayMoveMutation = {
+    playMove?: {
+        __typename: "GameData";
+        id: string;
+        status: GameStatus;
+        turn: string;
+        state: Array<Symbol | null>;
+        winner: string;
+    } | null;
 };
 
 export type CreatePlayerMutationVariables = {
@@ -386,7 +426,7 @@ export type CreatePlayerGameMutation = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -433,7 +473,7 @@ export type UpdatePlayerGameMutation = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -480,7 +520,7 @@ export type DeletePlayerGameMutation = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -505,7 +545,7 @@ export type CreateGameMutation = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -538,7 +578,7 @@ export type UpdateGameMutation = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -571,7 +611,7 @@ export type DeleteGameMutation = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -662,7 +702,7 @@ export type GetGameQuery = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -698,7 +738,7 @@ export type ListGamesQuery = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -823,7 +863,7 @@ export type OnCreatePlayerGameSubscription = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -869,7 +909,7 @@ export type OnUpdatePlayerGameSubscription = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -915,7 +955,7 @@ export type OnDeletePlayerGameSubscription = {
             id: string;
             status: GameStatus;
             owners: Array<string>;
-            initiater: string;
+            initiator: string;
             turn: string;
             state: Array<Symbol | null>;
             winner?: string | null;
@@ -939,7 +979,7 @@ export type OnCreateGameSubscription = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -971,7 +1011,7 @@ export type OnUpdateGameSubscription = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;
@@ -1003,7 +1043,7 @@ export type OnDeleteGameSubscription = {
         id: string;
         status: GameStatus;
         owners: Array<string>;
-        initiater: string;
+        initiator: string;
         turn: string;
         state: Array<Symbol | null>;
         winner?: string | null;

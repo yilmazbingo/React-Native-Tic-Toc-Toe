@@ -99,7 +99,7 @@ export const onCreatePlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -137,7 +137,7 @@ export const onUpdatePlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -175,7 +175,7 @@ export const onDeletePlayerGame = /* GraphQL */ `
                 id
                 status
                 owners
-                initiater
+                initiator
                 turn
                 state
                 winner
@@ -194,7 +194,7 @@ export const onCreateGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner
@@ -220,7 +220,7 @@ export const onUpdateGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner
@@ -246,7 +246,7 @@ export const onDeleteGame = /* GraphQL */ `
             id
             status
             owners
-            initiater
+            initiator
             turn
             state
             winner

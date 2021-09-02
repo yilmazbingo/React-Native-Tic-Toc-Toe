@@ -1,3 +1,24 @@
+# in appSync we can write mutations to trigger lambda functions
+type Mutation {
+    # passing only invited player because thus fucntion will be run only by logged in users, and we can see who started the game
+    startGame(invitee: String!): GameData
+        @function(name: "startGame-${env}")
+        # only logged in users can call this
+        @aws_cognito_user_pools
+    # we cannot add @auth to custom mutation
+
+    playMove(game: ID!, index: Int): GameData
+        @function(name: "playMove-${env}")
+        @aws_cognito_user_pools
+}
+
+type GameData {
+    id: ID!
+    status: GameStatus!
+    turn: String!
+    state: [Symbol]!
+    winner: String!
+}
 # @model will instruct Appsync to add a table in our database
 # key will change the primary key in the schema. default was id
 type Player
@@ -6,7 +27,7 @@ type Player
     @auth(
         rules: [
             # we allow loggged in users to do some operations. but having only "read" does not prevent user creating or updating
-            # this is for logged in useer. cognito user
+            # this is for logged in useer. cognito user is default
             { allow: private, operations: [read] }
             # default provider is cognito. this is for iam
             { allow: private, provider: iam, operations: [read, create, update, delete] }
@@ -56,7 +77,7 @@ type Game
     status: GameStatus!
     # since this is multiplayer game, both players are owners
     owners: [String!]!
-    initiater: String!
+    initiator: String!
     turn: String!
     state: [Symbol]!
     winner: String
