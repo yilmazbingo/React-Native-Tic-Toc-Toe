@@ -1,8 +1,10 @@
+// apssync uses fetch api, inorder for fetch work, we need to requie the polyfill
 const appsync = require("aws-appsync");
 const gql = require("graphql-tag");
 // inorder to use fetch api in node, we need this polyfill
 require("cross-fetch/polyfill");
 
+// callback will return the result to cognito
 exports.handler = async (event, context, callback) => {
     //    console.log("env",process.env) all env variables will be logged into cloudwatch
     const graphqlClient = new appsync.AWSAppSyncClient({
@@ -27,6 +29,7 @@ exports.handler = async (event, context, callback) => {
             $username: String!
             $email: AWSEmail!
         ) {
+            # this is already set by aws server
             createPlayer(
                 input: { cognitoID: $cognitoID, email: $email, name: $name, username: $username }
             ) {

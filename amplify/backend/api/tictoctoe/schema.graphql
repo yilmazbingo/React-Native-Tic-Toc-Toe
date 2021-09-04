@@ -1,14 +1,21 @@
-# in appSync we can write mutations to trigger lambda functions
+# in appSync we can write mutations to trigger lambda functions. when user click on "Start Game" this mutation will be called and it will triegger a lambda function
 type Mutation {
     # passing only invited player because thus fucntion will be run only by logged in users, and we can see who started the game
     startGame(invitee: String!): GameData
         @function(name: "startGame-${env}")
         # only logged in users can call this
         @aws_cognito_user_pools
-    # we cannot add @auth to custom mutation
+    # we cannot add @auth to custom mutation. when this file gets compiled, @auth() turns to @aws_cognito_user_pools
 
     playMove(game: ID!, index: Int): GameData
         @function(name: "playMove-${env}")
+        @aws_cognito_user_pools
+}
+
+# when we create custom subscrition, we do not get resolvers created. we have to create a custom resolvery
+type Subscription {
+    onUpdateGameById(id: ID!): Game
+        @aws_subscribe(mutations: ["updateGame"])
         @aws_cognito_user_pools
 }
 
@@ -20,22 +27,27 @@ type GameData {
     winner: String!
 }
 # @model will instruct Appsync to add a table in our database
-# key will change the primary key in the schema. default was id
 type Player
     @model
+    # this is not mockable. while having this mock server will throw error
+    @searchable
+    # key will change the primary key in the schema. default was id
     @key(fields: ["username"])
     @auth(
         rules: [
             # we allow loggged in users to do some operations. but having only "read" does not prevent user creating or updating
-            # this is for logged in useer. cognito user is default
+            # this is for logged in useer. cognito user is default for provider
+            # user will be created automaticlaly when someone registers using cognito
+            # In order to prevent private users from creating, another rule must be set for creating
             { allow: private, operations: [read] }
-            # default provider is cognito. this is for iam
+            # default provider is cognito
             { allow: private, provider: iam, operations: [read, create, update, delete] }
-            # logged in user can update only its data
+            # Only Owner can update its own data
             { allow: owner, ownerField: "username", operations: [update] }
         ]
     ) {
     id: ID!
+    # cognito Id will be stored in database
     cognitoID: String!
     username: String!
     name: String!
@@ -48,11 +60,14 @@ type Player
 type PlayerGame
     @auth(
         rules: [
+            # allow owners to view his data
             { allow: owner, ownerField: "owners", operations: [read] }
             { allow: private, provider: iam, operations: [read, create, update, delete] }
         ]
     )
+    # queries:null will not show the listPlayerGame query on aws server
     @model(queries: null)
+    # key makes those fields primary if I did not add "name". I had to delete db. So by adding "name" makes them secondary
     @key(name: "byGame", fields: ["gameID"])
     @key(name: "byPlayer", fields: ["playerUsername", "createdAt"]) {
     id: ID!
@@ -61,7 +76,9 @@ type PlayerGame
     gameID: ID!
     playerUsername: String!
     owners: [String!]!
+    # it will query the Game model by the gameId
     game: Game! @connection(fields: ["gameID"])
+    # It will query the Player model by the playerUsername
     player: Player @connection(fields: ["playerUsername"])
 }
 
@@ -81,6 +98,7 @@ type Game
     turn: String!
     state: [Symbol]!
     winner: String
+    # we have to query players byGameId which is not primary key.
     players: [PlayerGame] @connection(keyName: "byGame", fields: ["id"])
 }
 

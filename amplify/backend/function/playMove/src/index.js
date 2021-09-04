@@ -71,7 +71,7 @@ exports.handler = async event => {
     if (!game) {
         throw new Error("Game not found");
     }
-    // make sure the game is active
+    // make sure the game is active. it is either DECLINED, FINISHED,CANCELLED
     if (game.status !== "REQUESTED" && game.status !== "ACTIVE") {
         console.log("Game is not active!");
         throw new Error("Game is not active!");
