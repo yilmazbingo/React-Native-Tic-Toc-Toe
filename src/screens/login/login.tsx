@@ -2,21 +2,25 @@ import React, { ReactElement, useRef, useState } from "react";
 import { Alert, ScrollView, TextInput as NativeTextInput, TouchableOpacity } from "react-native";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
-import { GradientBackground, TextInput, Button, Text } from "@components";
+import { RouteProp } from "@react-navigation/native";
 import { Auth } from "aws-amplify";
+
+import { GradientBackground, TextInput, Button, Text } from "@components";
 import styles from "./login.styles";
 
 type LoginProps = {
     navigation: StackNavigationProp<StackNavigatorParams, "Login">;
+    route: RouteProp<StackNavigatorParams, "Login">;
 };
 
-export default function Login({ navigation }: LoginProps): ReactElement {
+export default function Login({ navigation, route }: LoginProps): ReactElement {
     const passwordRef = useRef<NativeTextInput | null>(null);
     const [form, setForm] = useState({
         username: "text",
         password: "test1234"
     });
     const [loading, setLoading] = useState(false);
+    const redirect = route.params?.redirect;
 
     const setFormInput = (key: keyof typeof form, value: string) =>
         setForm({ ...form, [key]: value });
@@ -26,7 +30,8 @@ export default function Login({ navigation }: LoginProps): ReactElement {
         const { username, password } = form;
         try {
             await Auth.signIn(username, password);
-            navigation.navigate("Home");
+            // "replace", if we go back we go back to "Home" not to Login
+            redirect ? navigation.replace(redirect) : navigation.navigate("Home");
         } catch (e) {
             if (e.code === "UserNotConfirmedException") {
                 navigation.navigate("Signup", { username });

@@ -13,6 +13,7 @@ aws-exports.ts
 aws-exports.js
 package-lock.json
 metro.config.js
+assets
 
 # macOS
 .DS_Store
