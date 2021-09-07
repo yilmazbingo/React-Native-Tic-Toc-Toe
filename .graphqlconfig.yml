@@ -1,15 +1,19 @@
 projects:
-  tictoctoe:
-    schemaPath: amplify/backend/api/tictoctoe/build/schema.graphql
-    includes:
-      - src/graphql/**/*.ts
-    excludes:
-      - ./amplify/**
-    extensions:
-      amplify:
-        codeGenTarget: typescript
-        generatedFileName: src/API.ts
-        docsFilePath: src/graphql
+    tictoctoe:
+        schemaPath: amplify/backend/api/tictoctoe/build/schema.graphql
+        # when we run amplify commands, we can fetch all queries and mutations that we defined in this path and generate the ts type for API.ts
+        includes:
+            # originally all queries and mutations would be in graphql
+            # - src/graphql/**/*.ts
+            - src/**/*.graphql.ts
+
+        excludes:
+            - ./amplify/**
+        extensions:
+            amplify:
+                codeGenTarget: typescript
+                generatedFileName: src/API.ts
+                docsFilePath: src/graphql
 extensions:
-  amplify:
-    version: 3
+    amplify:
+        version: 3

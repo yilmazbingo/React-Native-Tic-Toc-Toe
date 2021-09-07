@@ -24,7 +24,7 @@ type GameData {
     status: GameStatus!
     turn: String!
     state: [Symbol]!
-    winner: String!
+    winner: String
 }
 # @model will instruct Appsync to add a table in our database
 type Player

@@ -16,8 +16,8 @@ type LoginProps = {
 export default function Login({ navigation, route }: LoginProps): ReactElement {
     const passwordRef = useRef<NativeTextInput | null>(null);
     const [form, setForm] = useState({
-        username: "text",
-        password: "test1234"
+        username: "player1",
+        password: "player1234"
     });
     const [loading, setLoading] = useState(false);
     const redirect = route.params?.redirect;
