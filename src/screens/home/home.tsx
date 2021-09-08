@@ -17,7 +17,6 @@ export default function Home({ navigation }: HomeProps): ReactElement {
 
     const { user } = useAuth();
 
-    console.log("user in home", user);
     const [signingOut, setSigningOut] = useState(false);
     return (
         <GradientBackground>

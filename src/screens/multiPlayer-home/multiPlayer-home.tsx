@@ -1,8 +1,9 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Alert, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
+import { Alert, View, FlatList, ActivityIndicator, RefreshControl, Dimensions } from "react-native";
 import { getPlayer, PlayerGamesType } from "./multiplayer-home.graphql";
 import { API, graphqlOperation } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api";
+import Modal from "react-native-modal";
 import { TouchableOpacity } from "react-native-gesture-handler";
 import { GradientBackground, Text, Button } from "@components";
 import { useAuth } from "@contexts/auth-context";
@@ -10,6 +11,7 @@ import styles from "./multiPlayer-home.styles";
 import { colors } from "@utils";
 import GameItem from "./game-item";
 import { GetPlayerQuery } from "../../API";
+import PlayersModal from "./players-modal/PlayersModal";
 
 export default function multiPlayerHome(): ReactElement {
     const { user } = useAuth();
@@ -18,6 +20,7 @@ export default function multiPlayerHome(): ReactElement {
     const [nextToken, setNextToken] = useState<string | null | undefined>(null);
     const [loading, setLoading] = useState(false);
     const [refreshing, setRefreshing] = useState(false);
+    const [playersModal, setPlayersModal] = useState(false);
 
     // init is set to indicate if we are first time rendering the page.
     const fetchPlayer = async (nextToken: string | null | undefined, init = false) => {
@@ -153,6 +156,7 @@ export default function multiPlayerHome(): ReactElement {
                         }}
                     />
                     <TouchableOpacity
+                        onPress={() => setPlayersModal(true)}
                         // check paddingBottom both in android and ios
                         style={styles.newGameButton}
                     >
@@ -164,6 +168,16 @@ export default function multiPlayerHome(): ReactElement {
                     <Text style={{ color: colors.lightGreen }}> You must be logged in</Text>
                 </View>
             )}
+            <Modal
+                style={{ margin: 0 }}
+                isVisible={playersModal}
+                backdropOpacity={0.75}
+                onBackButtonPress={() => setPlayersModal(false)}
+                onBackdropPress={() => setPlayersModal(false)}
+                avoidKeyboard
+            >
+                <PlayersModal />
+            </Modal>
         </GradientBackground>
     );
 }
