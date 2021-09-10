@@ -7,6 +7,7 @@ import {
 import AppLoading from "expo-app-loading";
 import { Auth, Hub } from "aws-amplify";
 import { useAuth } from "@contexts/auth-context";
+import { initNotifications } from "@utils";
 
 type AppBootstrapProps = {
     children: ReactNode;
@@ -26,6 +27,7 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
                 // aws already stores the user in local storage. this method checks the local storage
                 const user = await Auth.currentAuthenticatedUser();
                 setUser(user);
+                initNotifications();
             } catch (e) {
                 console.log("error in checking user app-bootstrap", e);
                 setUser(null);
@@ -45,6 +47,8 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
                     break;
                 case "signIn":
                     setUser(data);
+                    initNotifications();
+
                     break;
 
                 default:
