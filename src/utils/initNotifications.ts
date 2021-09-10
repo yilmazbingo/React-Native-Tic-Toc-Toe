@@ -17,6 +17,7 @@ const initNotifications = async (): Promise<void> => {
             return;
         }
         const tokenRes = await Notifications.getExpoPushTokenAsync();
+        // since user cannot mutate the token, we create lambda function to create tokens.
         console.log(tokenRes);
         // this is for android
         if (Platform.OS === "android") {

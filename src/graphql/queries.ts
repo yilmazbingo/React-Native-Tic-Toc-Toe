@@ -23,6 +23,16 @@ export const getPlayer = /* GraphQL */ `
                 }
                 nextToken
             }
+            token {
+                items {
+                    id
+                    token
+                    playerUsername
+                    createdAt
+                    updatedAt
+                }
+                nextToken
+            }
         }
     }
 `;
@@ -52,40 +62,11 @@ export const listPlayers = /* GraphQL */ `
                 games {
                     nextToken
                 }
-            }
-            nextToken
-        }
-    }
-`;
-export const searchPlayers = /* GraphQL */ `
-    query SearchPlayers(
-        $filter: SearchablePlayerFilterInput
-        $sort: SearchablePlayerSortInput
-        $limit: Int
-        $nextToken: String
-        $from: Int
-    ) {
-        searchPlayers(
-            filter: $filter
-            sort: $sort
-            limit: $limit
-            nextToken: $nextToken
-            from: $from
-        ) {
-            items {
-                id
-                cognitoID
-                username
-                name
-                email
-                createdAt
-                updatedAt
-                games {
+                token {
                     nextToken
                 }
             }
             nextToken
-            total
         }
     }
 `;
@@ -131,6 +112,43 @@ export const listGames = /* GraphQL */ `
                 players {
                     nextToken
                 }
+            }
+            nextToken
+        }
+    }
+`;
+export const getExpoToken = /* GraphQL */ `
+    query GetExpoToken($token: String!) {
+        getExpoToken(token: $token) {
+            id
+            token
+            playerUsername
+            createdAt
+            updatedAt
+        }
+    }
+`;
+export const listExpoTokens = /* GraphQL */ `
+    query ListExpoTokens(
+        $token: String
+        $filter: ModelExpoTokenFilterInput
+        $limit: Int
+        $nextToken: String
+        $sortDirection: ModelSortDirection
+    ) {
+        listExpoTokens(
+            token: $token
+            filter: $filter
+            limit: $limit
+            nextToken: $nextToken
+            sortDirection: $sortDirection
+        ) {
+            items {
+                id
+                token
+                playerUsername
+                createdAt
+                updatedAt
             }
             nextToken
         }

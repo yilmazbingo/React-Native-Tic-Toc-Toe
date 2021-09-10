@@ -30,7 +30,7 @@ type GameData {
 type Player
     @model
     # this is not mockable. while having this mock server will throw error
-    @searchable
+    # @searchable
     # key will change the primary key in the schema. default was id
     @key(fields: ["username"])
     @auth(
@@ -53,6 +53,7 @@ type Player
     name: String!
     email: AWSEmail!
     games: [PlayerGame] @connection(keyName: "byPlayer", fields: ["username"])
+    token: [ExpoToken] @connection(keyName: "byPlayer", fields: ["username"])
 }
 # this model links player with game. many-to-many relationship
 # queires:null, will not show query for PlayerGame
@@ -113,4 +114,22 @@ enum GameStatus {
 enum Symbol {
     x
     o
+}
+
+# promary key will be token.
+type ExpoToken
+    @model
+    @key(fields: ["token"])
+    @key(name: "byPlayer", fields: ["playerUsername"])
+    # user could mutate tokens and get the notifications for different users
+    # we delete because when user logouts we delete the token automatically.
+    @auth(
+        rules: [
+            { allow: owner, ownerField: "playerUsername", operations: [read, delete] }
+            { allow: private, provider: iam, operations: [read, create, update, delete] }
+        ]
+    ) {
+    id: ID!
+    token: String!
+    playerUsername: String!
 }
