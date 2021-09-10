@@ -10,7 +10,8 @@
         "format:check": "npx prettier --check \"**/*.{js,jsx,json,ts,tsx}\"",
         "format": "npx prettier --write \"**/*.{js,jsx,json,ts,tsx}\"",
         "mock": "amplify mock",
-        "codegen": "amplify codegen"
+        "codegen": "amplify codegen",
+        "add-function": "amplify add function"
     },
     "husky": {
         "hooks": {

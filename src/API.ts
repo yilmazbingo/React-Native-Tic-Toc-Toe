@@ -59,6 +59,22 @@ export type Player = {
   createdAt: string,
   updatedAt: string,
   games?: ModelPlayerGameConnection | null,
+  token?: ModelExpoTokenConnection | null,
+};
+
+export type ModelExpoTokenConnection = {
+  __typename: "ModelExpoTokenConnection",
+  items?:  Array<ExpoToken | null > | null,
+  nextToken?: string | null,
+};
+
+export type ExpoToken = {
+  __typename: "ExpoToken",
+  id: string,
+  token: string,
+  playerUsername: string,
+  createdAt: string,
+  updatedAt: string,
 };
 
 export type GameData = {

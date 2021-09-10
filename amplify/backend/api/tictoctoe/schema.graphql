@@ -10,6 +10,10 @@ type Mutation {
     playMove(game: ID!, index: Int): GameData
         @function(name: "playMove-${env}")
         @aws_cognito_user_pools
+
+    addExpoToken(token: String!): ExpoToken
+        @function(name: "addExpoToken-${env}")
+        @aws_cognito_user_pools
 }
 
 # when we create custom subscrition, we do not get resolvers created. we have to create a custom resolvery
@@ -30,7 +34,7 @@ type GameData {
 type Player
     @model
     # this is not mockable. while having this mock server will throw error
-    # @searchable
+    @searchable
     # key will change the primary key in the schema. default was id
     @key(fields: ["username"])
     @auth(

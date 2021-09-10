@@ -70,6 +70,41 @@ export const listPlayers = /* GraphQL */ `
         }
     }
 `;
+export const searchPlayers = /* GraphQL */ `
+    query SearchPlayers(
+        $filter: SearchablePlayerFilterInput
+        $sort: SearchablePlayerSortInput
+        $limit: Int
+        $nextToken: String
+        $from: Int
+    ) {
+        searchPlayers(
+            filter: $filter
+            sort: $sort
+            limit: $limit
+            nextToken: $nextToken
+            from: $from
+        ) {
+            items {
+                id
+                cognitoID
+                username
+                name
+                email
+                createdAt
+                updatedAt
+                games {
+                    nextToken
+                }
+                token {
+                    nextToken
+                }
+            }
+            nextToken
+            total
+        }
+    }
+`;
 export const getGame = /* GraphQL */ `
     query GetGame($id: ID!) {
         getGame(id: $id) {

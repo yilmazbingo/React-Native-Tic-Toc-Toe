@@ -4,7 +4,7 @@ import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
 import { GradientBackground, Button, Text } from "@components";
 import { useAuth } from "@contexts/auth-context";
-import { Auth } from "aws-amplify";
+import { signOut } from "@utils";
 import styles from "./home.styles";
 
 type HomeProps = {
