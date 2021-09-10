@@ -144,7 +144,6 @@ export default function Game(): ReactElement {
                 {gameResult && (
                     <View style={styles.modal}>
                         <Text style={styles.modalText}>
-                            {" "}
                             {getWinner(gameResult.winner) === "HUMAN" && "You Won"}{" "}
                             {getWinner(gameResult.winner) === "BOT" && "You Lost"}
                             {getWinner(gameResult.winner) === "DRAW" && "It is a draw"}

@@ -16,9 +16,12 @@ import { colors } from "@utils";
 import styles from "./playersModal.styles";
 
 type PlayersListType = Exclude<searchPlayersQuery["searchPlayers"], null | undefined>["items"];
+type PlayersModalProps = {
+    onItemPress: (username: string) => void;
+};
 
 // add pagination
-export default function PlayersModal(): ReactElement {
+export default function PlayersModal({ onItemPress }: PlayersModalProps): ReactElement {
     const [players, setPlayers] = useState<PlayersListType | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
     const [submittedQuery, setSubmittedQuery] = useState("");
@@ -66,7 +69,7 @@ export default function PlayersModal(): ReactElement {
                 <View style={{ flex: 1 }}>
                     {loading ? (
                         <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
-                            <ActivityIndicator color={colors.lightPurple} />{" "}
+                            <ActivityIndicator color={colors.lightPurple} />
                         </View>
                     ) : (
                         <FlatList
@@ -74,7 +77,14 @@ export default function PlayersModal(): ReactElement {
                             data={players}
                             renderItem={({ item }) => {
                                 return (
-                                    <TouchableOpacity style={styles.playerItem}>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            if (item) {
+                                                onItemPress(item?.username);
+                                            }
+                                        }}
+                                        style={styles.playerItem}
+                                    >
                                         <Text style={{ color: colors.lightGreen, fontSize: 17 }}>
                                             {item?.name}
                                         </Text>

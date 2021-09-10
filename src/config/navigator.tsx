@@ -9,7 +9,8 @@ import {
     Signup,
     ChangePassword,
     ForgotPassword,
-    MultiPlayerHome
+    MultiPlayerHome,
+    MultiPlayerGame
 } from "@screens";
 import { colors } from "@utils";
 
@@ -22,6 +23,10 @@ export type StackNavigatorParams = {
     ChangePassword: undefined;
     ForgotPassword: undefined;
     MultiPlayerHome: undefined;
+    // we should be passing only one of them
+    MultiPlayerGame:
+        | { gameID: string; invitee?: undefined }
+        | { invitee: string; gameID?: undefined };
 };
 
 const Stack = createStackNavigator<StackNavigatorParams>();
@@ -75,6 +80,11 @@ export default function Navigator(): ReactElement {
                     name="MultiPlayerHome"
                     options={{ title: "Multi-Player" }}
                     component={MultiPlayerHome}
+                />
+                <Stack.Screen
+                    name="MultiPlayerGame"
+                    component={MultiPlayerGame}
+                    options={{ headerShown: false }}
                 />
             </Stack.Navigator>
         </NavigationContainer>

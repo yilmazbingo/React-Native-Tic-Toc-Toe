@@ -3,16 +3,20 @@ import { TouchableOpacity, Animated } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 import Observable from "zen-observable";
 import { Text } from "@components";
-import { colors } from "@utils";
+import { colors, onUpdateGameById } from "@utils";
 import { useAuth } from "@contexts/auth-context";
-import { PlayerGameType, onUpdateGameById } from "./multiplayer-home.graphql";
+import { PlayerGameType } from "./multiplayer-home.graphql";
 import styles from "./multiPlayer-home.styles";
 
-export default function GameItem({
-    playerGame: playerGameProp
-}: {
+type GameItemProps = {
     playerGame: PlayerGameType;
-}): ReactElement | null {
+    onPress: () => void;
+};
+
+export default function GameItem({
+    playerGame: playerGameProp,
+    onPress
+}: GameItemProps): ReactElement | null {
     const [playerGame, setPlayerGame] = useState(playerGameProp);
     // this value can be animated one value to another
     const animationRef = useRef<Animated.Value>(new Animated.Value(0));
@@ -87,7 +91,7 @@ export default function GameItem({
     }, []);
     return (
         // Touchable opacity cannot be animated
-        <TouchableOpacity style={styles.item}>
+        <TouchableOpacity onPress={onPress} style={styles.item}>
             <Animated.View
                 style={[
                     styles.itemBackground,

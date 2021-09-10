@@ -1,19 +1,29 @@
 import React, { ReactElement, useEffect, useState } from "react";
-import { Alert, View, FlatList, ActivityIndicator, RefreshControl, Dimensions } from "react-native";
-import { getPlayer, PlayerGamesType } from "./multiplayer-home.graphql";
+import { Alert, View, FlatList, ActivityIndicator, RefreshControl } from "react-native";
 import { API, graphqlOperation } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api";
 import Modal from "react-native-modal";
 import { TouchableOpacity } from "react-native-gesture-handler";
-import { GradientBackground, Text, Button } from "@components";
 import { useAuth } from "@contexts/auth-context";
+import { StackNavigationProp } from "@react-navigation/stack";
+import { StackNavigatorParams } from "@config/navigator";
 import styles from "./multiPlayer-home.styles";
 import { colors } from "@utils";
 import GameItem from "./game-item";
 import { GetPlayerQuery } from "../../API";
 import PlayersModal from "./players-modal/PlayersModal";
+import { getPlayer, PlayerGamesType } from "./multiplayer-home.graphql";
+import { GradientBackground, Text, Button } from "@components";
 
-export default function multiPlayerHome(): ReactElement {
+type MultiPlayerHomeScreenNavigationProp = StackNavigationProp<
+    StackNavigatorParams,
+    "MultiPlayerHome"
+>;
+type MultiPlayerHomeProps = {
+    navigation: MultiPlayerHomeScreenNavigationProp;
+};
+
+export default function multiPlayerHome({ navigation }: MultiPlayerHomeProps): ReactElement {
     const { user } = useAuth();
     // player games is the intermediate model that links games and players
     const [playerGames, setPlayerGames] = useState<PlayerGamesType>([]);
@@ -113,7 +123,18 @@ export default function multiPlayerHome(): ReactElement {
                     <FlatList
                         contentContainerStyle={styles.container}
                         data={playerGames}
-                        renderItem={({ item }) => <GameItem playerGame={item} />}
+                        renderItem={({ item }) => (
+                            <GameItem
+                                onPress={() => {
+                                    if (item?.game) {
+                                        navigation.navigate("MultiPlayerGame", {
+                                            gameID: item?.game.id
+                                        });
+                                    }
+                                }}
+                                playerGame={item}
+                            />
+                        )}
                         keyExtractor={playerGame =>
                             playerGame ? playerGame.game.id : `${new Date().getTime()}`
                         }
@@ -176,7 +197,12 @@ export default function multiPlayerHome(): ReactElement {
                 onBackdropPress={() => setPlayersModal(false)}
                 avoidKeyboard
             >
-                <PlayersModal />
+                <PlayersModal
+                    onItemPress={username => {
+                        setPlayersModal(false);
+                        navigation.navigate("MultiPlayerGame", { invitee: username });
+                    }}
+                />
             </Modal>
         </GradientBackground>
     );
