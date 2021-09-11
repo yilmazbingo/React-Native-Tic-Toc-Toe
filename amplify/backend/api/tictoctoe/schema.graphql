@@ -57,7 +57,7 @@ type Player
     name: String!
     email: AWSEmail!
     games: [PlayerGame] @connection(keyName: "byPlayer", fields: ["username"])
-    token: [ExpoToken] @connection(keyName: "byPlayer", fields: ["username"])
+    tokens: [ExpoToken] @connection(keyName: "byPlayer", fields: ["username"])
 }
 # this model links player with game. many-to-many relationship
 # queires:null, will not show query for PlayerGame
@@ -136,4 +136,11 @@ type ExpoToken
     id: ID!
     token: String!
     playerUsername: String!
+}
+
+type ExpoTicketsObject
+    @model
+    @auth(rules: [{ allow: private, provider: iam, operations: [read, create, update, delete] }]) {
+    id: ID!
+    tickets: AWSJSON!
 }

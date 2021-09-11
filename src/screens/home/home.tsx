@@ -47,7 +47,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                             if (user) {
                                 setSigningOut(true);
                                 try {
-                                    await Auth.signOut();
+                                    await signOut();
                                 } catch (error) {
                                     console.log("error in signingout ", error);
                                     Alert.alert("Error!", "Error signing out!");
