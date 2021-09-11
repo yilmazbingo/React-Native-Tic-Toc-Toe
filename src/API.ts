@@ -59,7 +59,7 @@ export type Player = {
   createdAt: string,
   updatedAt: string,
   games?: ModelPlayerGameConnection | null,
-  token?: ModelExpoTokenConnection | null,
+  tokens?: ModelExpoTokenConnection | null,
 };
 
 export type ModelExpoTokenConnection = {

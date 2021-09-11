@@ -4,6 +4,7 @@ import { API, graphqlOperation } from "aws-amplify";
 import { GraphQLResult } from "@aws-amplify/api";
 import Modal from "react-native-modal";
 import { TouchableOpacity } from "react-native-gesture-handler";
+import * as Notifications from "expo-notifications";
 import { useAuth } from "@contexts/auth-context";
 import { StackNavigationProp } from "@react-navigation/stack";
 import { StackNavigatorParams } from "@config/navigator";
@@ -61,6 +62,7 @@ export default function multiPlayerHome({ navigation }: MultiPlayerHomeProps): R
                             : [...playerGames, ...newPlayerGames]
                     );
                     setNextToken(player.data.getPlayer.games.nextToken);
+                    Notifications.setBadgeCountAsync(0);
                 }
             } catch (e) {
                 console.log(e);

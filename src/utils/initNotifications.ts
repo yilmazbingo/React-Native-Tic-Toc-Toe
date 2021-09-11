@@ -4,6 +4,7 @@ import Constants from "expo-constants";
 import gql from "graphql-tag";
 import { API, graphqlOperation } from "aws-amplify";
 
+// this mutation will trigger addExpoToken lambda function
 const addExpoToken = gql`
     mutation addExpoToken($token: String!) {
         addExpoToken(token: $token) {

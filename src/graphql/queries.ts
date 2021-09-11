@@ -23,7 +23,7 @@ export const getPlayer = /* GraphQL */ `
                 }
                 nextToken
             }
-            token {
+            tokens {
                 items {
                     id
                     token
@@ -62,7 +62,7 @@ export const listPlayers = /* GraphQL */ `
                 games {
                     nextToken
                 }
-                token {
+                tokens {
                     nextToken
                 }
             }
@@ -96,7 +96,7 @@ export const searchPlayers = /* GraphQL */ `
                 games {
                     nextToken
                 }
-                token {
+                tokens {
                     nextToken
                 }
             }
@@ -182,6 +182,33 @@ export const listExpoTokens = /* GraphQL */ `
                 id
                 token
                 playerUsername
+                createdAt
+                updatedAt
+            }
+            nextToken
+        }
+    }
+`;
+export const getExpoTicketsObject = /* GraphQL */ `
+    query GetExpoTicketsObject($id: ID!) {
+        getExpoTicketsObject(id: $id) {
+            id
+            tickets
+            createdAt
+            updatedAt
+        }
+    }
+`;
+export const listExpoTicketsObjects = /* GraphQL */ `
+    query ListExpoTicketsObjects(
+        $filter: ModelExpoTicketsObjectFilterInput
+        $limit: Int
+        $nextToken: String
+    ) {
+        listExpoTicketsObjects(filter: $filter, limit: $limit, nextToken: $nextToken) {
+            items {
+                id
+                tickets
                 createdAt
                 updatedAt
             }

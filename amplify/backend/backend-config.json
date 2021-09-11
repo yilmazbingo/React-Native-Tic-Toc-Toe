@@ -98,6 +98,18 @@
                     "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput"]
                 }
             ]
+        },
+        "handleExpoTickets": {
+            "build": true,
+            "providerPlugin": "awscloudformation",
+            "service": "Lambda",
+            "dependsOn": [
+                {
+                    "category": "api",
+                    "resourceName": "tictoctoe",
+                    "attributes": ["GraphQLAPIIdOutput", "GraphQLAPIEndpointOutput"]
+                }
+            ]
         }
     }
 }

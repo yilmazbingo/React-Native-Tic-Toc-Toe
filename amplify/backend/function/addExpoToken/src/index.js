@@ -5,6 +5,7 @@ require("cross-fetch/polyfill");
 
 const getExpoToken = gql`
     query getExpoToken($token: String!) {
+        # token is the primary key.
         getExpoToken(token: $token) {
             id
             token

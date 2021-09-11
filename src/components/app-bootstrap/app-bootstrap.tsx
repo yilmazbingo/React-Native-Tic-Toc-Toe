@@ -5,9 +5,21 @@ import {
     DeliusUnicase_700Bold
 } from "@expo-google-fonts/delius-unicase";
 import AppLoading from "expo-app-loading";
+import * as Notifications from "expo-notifications";
 import { Auth, Hub } from "aws-amplify";
 import { useAuth } from "@contexts/auth-context";
 import { initNotifications } from "@utils";
+
+// in order to this work in app.json             "useNextNotificationsApi": true
+
+// show notification if the app is running on foreground
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldShowAlert: true,
+        shouldPlaySound: false,
+        shouldSetBadge: false
+    })
+});
 
 type AppBootstrapProps = {
     children: ReactNode;
