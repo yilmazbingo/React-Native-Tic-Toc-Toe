@@ -1,5 +1,10 @@
-import React, { ReactElement } from "react";
-import { NavigationContainer } from "@react-navigation/native";
+import React, { ReactElement, useState, useEffect, useRef } from "react";
+import {
+    NavigationContainer,
+    NavigationContainerRef,
+    StackActions
+} from "@react-navigation/native";
+import * as Notifications from "expo-notifications";
 import { createStackNavigator, StackNavigationOptions } from "@react-navigation/stack";
 import {
     Home,
@@ -13,6 +18,7 @@ import {
     MultiPlayerGame
 } from "@screens";
 import { colors } from "@utils";
+import { useAuth } from "@contexts/auth-context";
 
 export type StackNavigatorParams = {
     Home: undefined;
@@ -28,6 +34,7 @@ export type StackNavigatorParams = {
         | { gameID: string; invitee?: undefined }
         | { invitee: string; gameID?: undefined };
 };
+// before navigation to the game, we need to make sure that navigator is loaded. if we receive notification and the app is killed and we click on the notification, and app is opened, and if we listened to event before the navigator is loaded, we will try to navigagte before the navigator is loaded.
 
 const Stack = createStackNavigator<StackNavigatorParams>();
 
@@ -52,8 +59,43 @@ const navigatorOptions: StackNavigationOptions = {
 };
 
 export default function Navigator(): ReactElement {
+    const { user } = useAuth();
+    const navigatorRef = useRef<NavigationContainerRef | null>(null);
+    const [isNavigatorReady, setIsNavigatorReady] = useState(false);
+
+    useEffect(() => {
+        if (user && isNavigatorReady) {
+            // Notifications.addNotificationReceivedListener this will run when you clicked the notificatoin
+            // this will run whne notification is clicked
+            const subscription = Notifications.addNotificationResponseReceivedListener(response => {
+                console.log("response from addNotificationResponseReceivedListener", response);
+                const gameID = response.notification.request.content.data.gameId;
+                if (navigatorRef.current?.getCurrentRoute()?.name === "MultiPlayerGame") {
+                    // navigatorRef does not have push and replace. they belong to stack navigator
+                    navigatorRef.current.dispatch(
+                        StackActions.replace("MultiPlayerGame", {
+                            gameID
+                        })
+                    );
+                } else {
+                    navigatorRef.current?.navigate("MultiPlayerGame", {
+                        gameID
+                    });
+                }
+            });
+            return () => {
+                subscription.remove();
+            };
+        }
+    }, [user, isNavigatorReady]);
     return (
-        <NavigationContainer>
+        // make sure user is authenticated
+        <NavigationContainer
+            ref={navigatorRef}
+            onReady={() => {
+                setIsNavigatorReady(true);
+            }}
+        >
             {/* we pass headerMode="none"  to each screen as prop  */}
             <Stack.Navigator initialRouteName="Home" screenOptions={navigatorOptions}>
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
