@@ -29,10 +29,10 @@ export default function Signup({ navigation, route }: SignupProps): ReactElement
     const emailRef = useRef<NativeTextInput | null>(null);
     const nameRef = useRef<NativeTextInput | null>(null);
     const [form, setForm] = useState({
-        username: "player1",
+        username: "player3",
         password: "player1234",
-        email: "lena90@yzkrachel.com",
-        name: "player1"
+        email: "soo.4@mixtureqg.com",
+        name: "player3"
     });
     const [loading, setLoading] = useState(false);
     const [step, setStep] = useState<"signUp" | "otp">(unconfirmedUsername ? "otp" : "signUp");

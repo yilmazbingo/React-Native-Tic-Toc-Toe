@@ -19,9 +19,10 @@ export default function GradientBackground({ children }: GradientBackgroundProps
                     top: 0,
                     bottom: 0
                 }}
-                colors={["#120318", "#221a36"]}
+                colors={["#120318", "#6e0979"]}
             />
             {children}
         </View>
     );
 }
+// colors={["#120318", "#221a36"]}

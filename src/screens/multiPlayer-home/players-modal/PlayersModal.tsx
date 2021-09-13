@@ -50,7 +50,7 @@ export default function PlayersModal({ onItemPress }: PlayersModalProps): ReactE
     useEffect(() => {
         setTimeout(() => {
             inputRef.current?.focus();
-        }, 300);
+        }, 100);
     }, []);
     return (
         <View style={styles.modalContainer}>

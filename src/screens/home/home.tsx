@@ -40,7 +40,7 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                         }}
                         title="MultiPlayer"
                     />
-                    <Button
+                    {/* <Button
                         loading={signingOut}
                         style={styles.button}
                         onPress={async () => {
@@ -57,7 +57,26 @@ export default function Home({ navigation }: HomeProps): ReactElement {
                                 navigation.navigate("Login");
                             }
                         }}
-                        title={user ? "Logout" : "login"}
+                        title={user ? "Logout" : "Login"}
+                    /> */}
+
+                    <Button
+                        loading={signingOut}
+                        onPress={async () => {
+                            if (user) {
+                                setSigningOut(true);
+                                try {
+                                    await signOut();
+                                } catch (error) {
+                                    Alert.alert("Error!", "Error signing out!");
+                                }
+                                setSigningOut(false);
+                            } else {
+                                navigation.navigate("Login");
+                            }
+                        }}
+                        style={styles.button}
+                        title={user ? "Logout" : "Login"}
                     />
                     <Button
                         style={styles.button}

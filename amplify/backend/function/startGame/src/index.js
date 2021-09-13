@@ -40,6 +40,7 @@ exports.handler = async event => {
         query: playerQuery,
         variables: { username: initiator }
     });
+
     const inviteeResponse = await graphqlClient.query({
         query: playerQuery,
         variables: { username: invitee }
@@ -119,10 +120,12 @@ exports.handler = async event => {
     });
     // send push notification to the invitee
     const inviteeTokens = inviteeResponse.data.getPlayer.tokens.items;
+    console.log("invitee tokens", inviteeTokens);
     const expo = new Expo();
     const messages = [];
 
     for (let pushToken of inviteeTokens) {
+        // validate the token
         if (!Expo.isExpoPushToken(pushToken)) {
             continue;
         }
@@ -130,6 +133,7 @@ exports.handler = async event => {
             to: pushToken.token,
             sound: "default",
             body: `${initiator} invited you to play a game!`,
+            // when we handle the notificions, we click on this and navigated to the game
             data: { gameId: gameResponse.data.createGame.id },
             //  since i do not store the notificaton on db, I cannot count unread messages count
             badge: 1
@@ -141,6 +145,8 @@ exports.handler = async event => {
     const tickets = [];
     for (let chunk of chunks) {
         try {
+            // expo will send us responses called tickets. ticket contains either "id" or error
+            // response will come in the same order that request was sent to expo
             const ticketChunk = await expo.sendPushNotificationsAsync(chunk);
             for (let index = 0; index < ticketChunk.length; index++) {
                 const ticket = ticketChunk[index];
@@ -155,7 +161,7 @@ exports.handler = async event => {
             // error reporting service
         }
     }
-
+    // we store them in db so in the future we ask Expo to get the answer from apple and google
     const ticketIds = {};
 
     // delete the tickets that give errror:
@@ -163,7 +169,11 @@ exports.handler = async event => {
         const ticket = ticketObj.ticket;
         const expoToken = ticketObj.expoToken;
         if (ticket.status === "error") {
-            if (ticket.details && ticket.details.error && error === "DeviceNotRegistered") {
+            if (
+                ticket.details &&
+                ticket.details.error &&
+                ticket.details.error === "DeviceNotRegistered"
+            ) {
                 const deleteExpoToken = gql`
                     mutation deleteExpoToken($token: String!) {
                         deleteExpoToken(input: { token: $token }) {
@@ -183,9 +193,9 @@ exports.handler = async event => {
                     console.log(e);
                 }
             }
-            if (ticket.id) {
-                ticketIds[ticket.id] = expoToken;
-            }
+        }
+        if (ticket.id) {
+            ticketIds[ticket.id] = expoToken;
         }
     }
 

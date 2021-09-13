@@ -36,39 +36,33 @@ export default function AppBootstrap({ children }: AppBootstrapProps): ReactElem
     useEffect(() => {
         async function checkCurrentUser() {
             try {
-                // aws already stores the user in local storage. this method checks the local storage
                 const user = await Auth.currentAuthenticatedUser();
                 setUser(user);
                 initNotifications();
-            } catch (e) {
-                console.log("error in checking user app-bootstrap", e);
+            } catch (error) {
                 setUser(null);
             }
             setAuthLoaded(true);
         }
-        try {
-            checkCurrentUser();
-        } catch (e) {
-            console.log(e);
-        }
+        checkCurrentUser();
+
         function hubListener(hubData: any) {
             const { data, event } = hubData.payload;
             switch (event) {
-                case "signout":
+                case "signOut":
                     setUser(null);
                     break;
                 case "signIn":
                     setUser(data);
                     initNotifications();
-
                     break;
-
                 default:
                     break;
             }
         }
 
         Hub.listen("auth", hubListener);
+
         return () => {
             Hub.remove("auth", hubListener);
         };

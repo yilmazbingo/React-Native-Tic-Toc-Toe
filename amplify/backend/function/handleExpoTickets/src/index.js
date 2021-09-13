@@ -43,10 +43,11 @@ exports.handler = async event => {
     const ticketsRes = await graphqlClient.query({
         query: ticketsQuery
     });
-    const ticketsObject = ticketRes.data.listExpoTicketsObjects.items;
-    for (const ticketsObject of ticketsObject) {
+    const ticketsObject = ticketsRes.data.listExpoTicketsObjects.items;
+
+    for (const ticketObject of ticketsObjects) {
         const currentDate = new Date();
-        const ticketsObjectDate = new Date(ticketsObject.createdAt);
+        const ticketsObjectDate = new Date(ticketObject.createdAt);
         const timeDiff = (currentDate.getTime() - ticketsObjectDate.getTime()) / (100 * 60 * 60);
 
         if (timeDiff < 1) {
@@ -57,6 +58,7 @@ exports.handler = async event => {
         // send the tickets to expo to handle the errors
         const expo = new Expo();
         // we can send upto 200 notification in one request. we send in chunk. keys will return ticketId's which are unique for each device
+        // chunkPushNotificationReceiptIds accepts array
         const receiptIdChunks = expo.chunkPushNotificationReceiptIds(Object.keys(tickets));
         for (const chunk of receiptIdChunks) {
             try {

@@ -14,6 +14,7 @@ aws-exports.js
 package-lock.json
 metro.config.js
 assets
+google-services.json
 
 # macOS
 .DS_Store

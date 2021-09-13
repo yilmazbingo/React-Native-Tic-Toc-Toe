@@ -15,14 +15,25 @@
         },
         "assetBundlePatterns": ["**/*"],
         "ios": {
-            "supportsTablet": true
+            "supportsTablet": true,
+            "bundleIdentifier": "com.yilmazbingol.tictactoe",
+            "buildNumber": "1.0.0",
+            "config": {
+                "googleMobileAdsAppId": "ca-app-pub-2427748286299308~5806341044"
+            }
         },
         "android": {
             "adaptiveIcon": {
                 "foregroundImage": "./assets/adaptive-icon.png",
                 "backgroundColor": "#FFFFFF"
             },
-            "useNextNotificationsApi": true
+            "package": "com.yilmazbingol.tictactoe",
+            "versionCode": 1,
+            "googleServicesFile": "./google-services.json",
+            "useNextNotificationsApi": true,
+            "config": {
+                "googleMobileAdsAppId": "ca-app-pub-2427748286299308~2711412023"
+            }
         },
         "web": {
             "favicon": "./assets/favicon.png"
