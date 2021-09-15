@@ -1,5 +1,7 @@
 import React, { ReactElement, useState, useEffect } from "react";
-import { SafeAreaView, Dimensions, View, Text } from "react-native"; //gets the dimensions of the current device
+import { SafeAreaView, Dimensions, View, Text, Platform } from "react-native"; //gets the dimensions of the current device
+import { AdMobInterstitial, setTestDeviceIDAsync } from "expo-ads-admob";
+import Constants from "expo-constants";
 import { GradientBackground, Board, Button } from "@components";
 import { useSettings, difficulties } from "@contexts/settings.context";
 import {
@@ -14,6 +16,20 @@ import {
 import styles from "./single-player.styles";
 
 const SCREEN_WIDTH = Dimensions.get("screen").width;
+setTestDeviceIDAsync("EMULATOR");
+
+// use test IDs on testing. google might ban u.
+const addUnitID = Platform.select({
+    ios:
+        Constants.isDevice && !__DEV__
+            ? "ca-app-pub-2427748286299308/6660257718"
+            : "ca-app-pub-3940256099942544/1033173712",
+    android: Constants.isDevice && !__DEV__ ? "REALID" : "ca-app-pub-3940256099942544/1033173712"
+});
+
+AdMobInterstitial.addEventListener("interstitialWillLeaveApplication", () => {
+    console.log("left app");
+});
 
 export default function Game(): ReactElement {
     //prettier-ignore
@@ -70,6 +86,21 @@ export default function Game(): ReactElement {
         setState([null, null, null, null, null, null, null, null, null]);
         setTurn(Math.random() < 0.5 ? "HUMAN" : "BOT");
     };
+
+    // call this when game ends
+    const showAd = async () => {
+        if (!addUnitID) return;
+        try {
+            await AdMobInterstitial.setAdUnitID(addUnitID);
+            await AdMobInterstitial.requestAdAsync({
+                servePersonalizedAds: true
+            });
+            await AdMobInterstitial.showAdAsync();
+        } catch (error) {
+            // repot this
+            console.log("error during admob", error);
+        }
+    };
     useEffect(() => {
         if (gameResult) {
             const winner = getWinner(gameResult.winner);
@@ -84,6 +115,12 @@ export default function Game(): ReactElement {
             if (winner === "DRAW") {
                 playSound("draw");
                 setGameCount({ ...gameCount, wins: gameCount.draws + 1 });
+            }
+            // show the game after 3 games:
+            const { wins, draws, losses } = gameCount;
+            const totalGames = wins + draws + losses;
+            if (totalGames % 3 === 0) {
+                showAd();
             }
         } else {
             if (turn === "BOT") {

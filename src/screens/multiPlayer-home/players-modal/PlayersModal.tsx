@@ -48,9 +48,9 @@ export default function PlayersModal({ onItemPress }: PlayersModalProps): ReactE
 
     // default animation for Modal is 300ms. So i wait for that animation finishes and then focus on the input
     useEffect(() => {
-        setTimeout(() => {
-            inputRef.current?.focus();
-        }, 100);
+        // setTimeout(() => {
+        //     inputRef.current?.focus();
+        // }, 100);
     }, []);
     return (
         <View style={styles.modalContainer}>

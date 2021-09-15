@@ -30,7 +30,7 @@
                 },
                 "startGame": {
                     "deploymentBucketName": "amplify-tictoctoe-dev-173005-deployment",
-                    "s3Key": "amplify-builds/startGame-627a516138647a4f384a-build.zip"
+                    "s3Key": "amplify-builds/startGame-48347761326650535438-build.zip"
                 },
                 "addExpoToken": {
                     "deploymentBucketName": "amplify-tictoctoe-dev-173005-deployment",
