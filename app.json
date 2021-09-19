@@ -30,6 +30,7 @@
             "package": "com.yilmazbingol.tictactoe",
             "versionCode": 1,
             "googleServicesFile": "./google-services.json",
+            "permissions": ["VIBRATE"],
             "useNextNotificationsApi": true,
             "config": {
                 "googleMobileAdsAppId": "ca-app-pub-2427748286299308~2711412023"

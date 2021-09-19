@@ -49,3 +49,7 @@ Amplify.configure(config);
 ```
 
 'npm run mock` will start the mock servery
+
+## Deployment
+
+          $ expo build:android -t app-bundle
