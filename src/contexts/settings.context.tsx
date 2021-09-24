@@ -32,6 +32,7 @@ type SettingsContextType = {
 const SettingsContext = createContext<SettingsContextType | undefined>(undefined);
 
 function useSettings(): SettingsContextType {
+    // useContext accepts a context object and returns the current value
     const context = useContext(SettingsContext);
     if (!context) {
         // in case you wanna access conext outside the provider

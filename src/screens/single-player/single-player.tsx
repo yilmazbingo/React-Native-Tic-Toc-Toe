@@ -53,7 +53,7 @@ export default function Game(): ReactElement {
 
     const insertCell = (cell: number, symbol: "x" | "o"): void => {
         const stateCopy: BoardState = [...state];
-        // if (stateCopy[cell] || isTerminal(stateCopy)) return;
+        if (stateCopy[cell] || isTerminal(stateCopy)) return;
         stateCopy[cell] = symbol;
         setState(stateCopy);
         try {
@@ -68,9 +68,9 @@ export default function Game(): ReactElement {
         insertCell(cell, isHumanMaximizing ? "x" : "o");
         setTurn("BOT");
     };
-    console.log("calling,", getBestMove(state, false));
+    // console.log("calling,", getBestMove(state, false));
     printFormattedBoard(state);
-    console.log(isTerminal(state));
+    // console.log(isTerminal(state));
     // console.log(getAvailableMoves(b));
 
     const getWinner = (winnerSymbol: Cell): "HUMAN" | "BOT" | "DRAW" => {
